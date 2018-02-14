@@ -13,6 +13,8 @@ runtest() {
 runtest 0 0
 runtest 1 1
 runtest 99 99
-runtest '1 2 3' '1 2 3'
+runtest '1 2 3' '1
+2
+3'
 
 echo OK
