@@ -10,11 +10,15 @@ runtest() {
     echo "$1 => $output"
 }
 
+echo '=== basic ==='
 runtest 0 0
 runtest 1 1
 runtest 99 99
 runtest '1 2 3' '1
 2
 3'
+
+echo '=== + ==='
+runtest '+ 1 2' 3
 
 echo OK

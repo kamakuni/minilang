@@ -37,6 +37,11 @@ func eval() int {
 		}
 		return val
 	}
+
+	if cnt < len(prg) && prg[cnt] == '+' {
+		cnt++
+		return eval() + eval()
+	}
 	error("invalid value %c", prg[cnt])
 	return 0
 }
