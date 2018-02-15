@@ -7,6 +7,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 	"unicode"
 )
 
@@ -38,13 +39,19 @@ func eval() int {
 		return val
 	}
 
-	if cnt < len(prg) && (prg[cnt] == '+' || prg[cnt] == '-') {
-		if prg[cnt] == '+' {
-			cnt++
+	//	if cnt < len(prg) && (prg[cnt] == '+' || prg[cnt] == '-') {
+	if cnt < len(prg) && strings.ContainsRune("+-*/", prg[cnt]) {
+		op := prg[cnt]
+		cnt++
+		switch op {
+		case '+':
 			return eval() + eval()
-		} else {
-			cnt++
+		case '-':
 			return eval() - eval()
+		case '*':
+			return eval() * eval()
+		case '/':
+			return eval() / eval()
 		}
 	}
 	error("invalid value %c", prg[cnt])
