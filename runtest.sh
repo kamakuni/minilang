@@ -18,7 +18,12 @@ runtest '1 2 3' '1
 2
 3'
 
-echo '=== + ==='
+echo '=== arithmetic operators ==='
 runtest '+ 1 2' 3
+runtest '+ 100 5' 105
+runtest '- 5 1' 4
+runtest '- 1 4' -3
+runtest '* 3 5' 15
+runtest '/ 20 5' 4
 
 echo OK
