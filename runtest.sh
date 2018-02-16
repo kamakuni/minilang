@@ -25,5 +25,8 @@ runtest '- 5 1' 4
 runtest '- 1 4' -3
 runtest '* 3 5' 15
 runtest '/ 20 5' 4
+runtest '+ + + 1 2 3 4' 10
+runtest '+ 1 + 2 + 3 4' 10
+runtest '+ 2 * 4 3' 14
 
 echo OK

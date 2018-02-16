@@ -28,6 +28,7 @@ func skip() {
 func eval() int {
 	skip()
 
+	// Literal numbers
 	if cnt < len(prg) && unicode.IsDigit(prg[cnt]) {
 
 		var val = int(prg[cnt] - '0')
@@ -39,7 +40,7 @@ func eval() int {
 		return val
 	}
 
-	//	if cnt < len(prg) && (prg[cnt] == '+' || prg[cnt] == '-') {
+	// Aritmetic operators
 	if cnt < len(prg) && strings.ContainsRune("+-*/", prg[cnt]) {
 		op := prg[cnt]
 		cnt++
