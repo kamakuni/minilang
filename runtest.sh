@@ -29,4 +29,9 @@ runtest '+ + + 1 2 3 4' 10
 runtest '+ 1 + 2 + 3 4' 10
 runtest '+ 2 * 4 3' 14
 
+echo '=== function ==='
+runtest 'F[+ . .] F(1)' 2
+runtest 'F[* . 2] F(5)' 10
+runtest 'F[* . .] F(F(2))' 16
+
 echo OK
