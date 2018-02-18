@@ -33,5 +33,6 @@ echo '=== function ==='
 runtest 'F[+ . .] F(1)' 2
 runtest 'F[* . 2] F(5)' 10
 runtest 'F[* . .] F(F(2))' 16
+runtest 'F[* . .] F(F(F(2)))' 256
 
 echo OK

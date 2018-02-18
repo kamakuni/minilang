@@ -64,11 +64,11 @@ func eval(arg int) int {
 
 	// Function application
 	if cnt < len(prg) && unicode.IsUpper(prg[cnt]) && prg[1] == '(' {
-		name := cnt
-		p += 2
-
-		skip()
-
+		name := prg[cnt]
+		cnt += 2
+		newarg := eval(arg)
+		expect(')')
+		return eval_string(fn[name-'A'])
 	}
 
 	// Literal numbers
