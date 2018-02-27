@@ -27,10 +27,6 @@ func expect(r rune) {
 	cnt++
 }
 
-func eval_string() {
-
-}
-
 func readUtil(r rune, target *string) {
 	for prg[cnt] == r {
 		*target = *target + string(prg[cnt])
@@ -43,6 +39,14 @@ func skip() {
 	for cnt < len(prg) && unicode.IsSpace(prg[cnt]) {
 		cnt++
 	}
+}
+
+func evalString(code string, arg int) int {
+	orig := prg
+	origCnt := cnt
+	val := eval(arg)
+	prg = orig
+	return val
 }
 
 func eval(arg int) int {
@@ -68,7 +72,7 @@ func eval(arg int) int {
 		cnt += 2
 		newarg := eval(arg)
 		expect(')')
-		return eval_string(fn[name-'A'])
+		return evalString(fn[name-'A'], newarg)
 	}
 
 	// Literal numbers
