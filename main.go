@@ -44,8 +44,10 @@ func skip() {
 func evalString(code string, arg int) int {
 	orig := prg
 	origCnt := cnt
+	cnt = 0
 	val := eval(arg)
 	prg = orig
+	cnt = origCnt
 	return val
 }
 
