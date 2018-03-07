@@ -13,7 +13,9 @@ import (
 
 var prg []rune
 var cnt int
-var fn []string
+
+//var fn []string
+var fn map[rune]string = map[rune]string{}
 
 func error(format string, a ...interface{}) {
 	fmt.Fprintf(os.Stderr, format, a)
@@ -27,12 +29,21 @@ func expect(r rune) {
 	cnt++
 }
 
-func readUtil(r rune, target *string) {
-	for prg[cnt] == r {
-		*target = *target + string(prg[cnt])
+func readUtil(r rune, name rune, target map[rune]string) {
+	var buf = ""
+	fmt.Println("******************************")
+	fmt.Println(string(r))
+	fmt.Printf("%d", cnt)
+	fmt.Println(string(prg[cnt]))
+	fmt.Println("******************************")
+	for prg[cnt] != r {
+		fmt.Println("loooooooooooooop")
+		fmt.Println(buf)
+		buf = buf + string(prg[cnt])
 		cnt++
 	}
-	fmt.Println(*target)
+	fmt.Println(buf)
+	target[name] = buf
 }
 
 func skip() {
@@ -64,7 +75,8 @@ func eval(arg int) int {
 	if cnt < len(prg) && unicode.IsUpper(prg[cnt]) && prg[1] == '[' {
 		name := prg[cnt]
 		cnt += 2
-		readUtil(']', &fn[name-'A'])
+		fmt.Println(string(name))
+		readUtil(']', name, fn)
 		return eval(arg)
 	}
 
