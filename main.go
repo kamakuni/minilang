@@ -15,7 +15,7 @@ var prg []rune
 var cnt int
 
 //var fn []string
-var fn map[rune]string = map[rune]string{}
+var fn = map[rune]string{}
 
 func error(format string, a ...interface{}) {
 	fmt.Fprintf(os.Stderr, format, a)
@@ -23,7 +23,9 @@ func error(format string, a ...interface{}) {
 }
 
 func expect(r rune) {
+	fmt.Printf("rune:%d", r)
 	if prg[cnt] != r {
+		fmt.Printf("rune:%d", prg[cnt])
 		error("%c expected: %s", prg[cnt])
 	}
 	cnt++
@@ -31,19 +33,19 @@ func expect(r rune) {
 
 func readUtil(r rune, name rune, target map[rune]string) {
 	var buf = ""
-	fmt.Println("******************************")
-	fmt.Println(string(r))
-	fmt.Printf("%d", cnt)
-	fmt.Println(string(prg[cnt]))
-	fmt.Println("******************************")
-	for prg[cnt] != r {
-		fmt.Println("loooooooooooooop")
-		fmt.Println(buf)
+	fmt.Println("*******************************")
+	for cnt < len(prg) && prg[cnt] != r {
+		fmt.Printf("prg:%s\n", string(prg[cnt]))
+		fmt.Printf("r:%s\n", string(r))
 		buf = buf + string(prg[cnt])
 		cnt++
+		fmt.Printf("cnt:%d\n", cnt)
 	}
-	fmt.Println(buf)
+	fmt.Println("*******************************")
+	fmt.Printf("function name:%s\n", string(name))
+	fmt.Printf("function:%s\n", buf)
 	target[name] = buf
+	cnt++
 }
 
 func skip() {
@@ -67,6 +69,7 @@ func eval(arg int) int {
 
 	// Function paramter
 	if cnt < len(prg) && prg[cnt] == '.' {
+		fmt.Println("Function param")
 		cnt++
 		return arg
 	}
@@ -75,18 +78,23 @@ func eval(arg int) int {
 	if cnt < len(prg) && unicode.IsUpper(prg[cnt]) && prg[1] == '[' {
 		name := prg[cnt]
 		cnt += 2
-		fmt.Println(string(name))
 		readUtil(']', name, fn)
 		return eval(arg)
 	}
-
+	fmt.Println("---------------------")
+	fmt.Printf("prg:%s\n", string(prg[cnt]))
+	fmt.Printf("cnt:%d\n", string(prg[cnt+1]))
+	fmt.Println("---------------------")
 	// Function application
-	if cnt < len(prg) && unicode.IsUpper(prg[cnt]) && prg[1] == '(' {
+	if cnt < len(prg) && unicode.IsUpper(prg[cnt]) && prg[cnt+1] == '(' {
+		fmt.Printf("func apply:%d\n", cnt)
 		name := prg[cnt]
+		fmt.Printf("name:%d\n", name)
 		cnt += 2
+		fmt.Printf("cnt3:%d\n", cnt)
 		newarg := eval(arg)
 		expect(')')
-		return evalString(fn[name-'A'], newarg)
+		return evalString(fn[name], newarg)
 	}
 
 	// Literal numbers
