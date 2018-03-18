@@ -14,18 +14,14 @@ import (
 var prg []rune
 var cnt int
 
-//var fn []string
 var fn = map[rune]string{}
 
 func error(format string, a ...interface{}) {
-	//fmt.Fprintf(os.Stderr, format, a)
 	os.Exit(1)
 }
 
 func expect(r rune) {
-	fmt.Printf("rune:%d", r)
 	if prg[cnt] != r {
-		//fmt.Printf("rune:%d", prg[cnt])
 		error("%c expected: %s", prg[cnt])
 	}
 	cnt++
@@ -118,8 +114,8 @@ func eval(arg int) int {
 }
 
 func main() {
-	//prg = []rune(os.Args[1])
-	prg = []rune("F[+ . .] F(1)")
+	prg = []rune(os.Args[1])
+	//prg = []rune("F[+ . .] F(1)")
 	for cnt < len(prg) {
 		fmt.Printf("%d\n", eval(0))
 	}
