@@ -43,24 +43,24 @@ func skip() {
 	}
 }
 
-func evalString(code string, arg int) int {
+func evalString(code string, args map[rune]int) int {
 	orig := prg
 	prg = []rune(code)
 	origCnt := cnt
 	cnt = 0
-	val := eval(arg)
+	val := eval(args)
 	prg = orig
 	cnt = origCnt
 	return val
 }
 
-func eval(arg int) int {
+func eval(args map[rune]int) int {
 	skip()
 
 	// Function paramter
-	if cnt < len(prg) && prg[cnt] == '.' {
+	if cnt < len(prg) && unicode.IsLower(prg[cnt]) {
 		cnt++
-		return arg
+		return args[prg[cnt]]
 	}
 
 	// Function definition
@@ -68,16 +68,16 @@ func eval(arg int) int {
 		name := prg[cnt]
 		cnt += 2
 		readUtil(']', name, fn)
-		return eval(arg)
+		return eval(args)
 	}
 
 	// Function application
 	if cnt < len(prg) && unicode.IsUpper(prg[cnt]) && prg[cnt+1] == '(' {
 		name := prg[cnt]
 		cnt += 2
-		newarg := eval(arg)
+		newarg := eval(args)
 		expect(')')
-		return evalString(fn[name], newarg)
+		return evalString(fn[name], newargs)
 	}
 
 	// Literal numbers
@@ -96,8 +96,8 @@ func eval(arg int) int {
 	if cnt < len(prg) && strings.ContainsRune("+-*/", prg[cnt]) {
 		op := prg[cnt]
 		cnt++
-		x := eval(arg)
-		y := eval(arg)
+		x := eval(args)
+		y := eval(args)
 		switch op {
 		case '+':
 			return x + y
