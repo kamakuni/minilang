@@ -75,7 +75,7 @@ func eval(args map[rune]int) int {
 	if cnt < len(prg) && unicode.IsUpper(prg[cnt]) && prg[cnt+1] == '(' {
 		name := prg[cnt]
 		cnt += 2
-		newarg := eval(args)
+		newargs := eval(args)
 		expect(')')
 		return evalString(fn[name], newargs)
 	}
